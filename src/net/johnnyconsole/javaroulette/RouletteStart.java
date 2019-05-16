@@ -16,7 +16,7 @@ public class RouletteStart {
     private static final int INTERRUPTED = 2;
     static int players, size;
     static String[] names;
-
+    static boolean[] alive;
 
     public static void main(String[] args) {
         try {
@@ -24,19 +24,22 @@ public class RouletteStart {
             System.out.println("Welcome to Java Roulette by Johnny Console!");
             TimeUnit.SECONDS.sleep(2);
 
-            System.out.println("How many players will be playing the game? (enter 0 to exit): ");
+            System.out.print("How many players will be playing the game? (enter 0 to exit): ");
             players = scanner.nextInt();
+            scanner.nextLine();
             TimeUnit.SECONDS.sleep(2);
 
             System.out.println("Thanks for that!");
             names = new String[players];
+            alive = new boolean[players];
 
             for (int i = 0; i < players; i++) {
-                System.out.println("Enter Player " + (i+1) + "'s name: ");
+                System.out.print("Enter Player " + (i+1) + "'s name: ");
                 names[i] = scanner.nextLine();
+                alive[i] = true;
             }
 
-            System.out.println("Thanks! Finally, select your board size: ");
+            System.out.print("Thanks! Finally, select your board size: ");
             size = scanner.nextInt();
             scanner.close();
 
@@ -46,7 +49,7 @@ public class RouletteStart {
             System.out.println("Starting your game, please wait...");
             TimeUnit.SECONDS.sleep(5);
 
-            //RouletteGame.main(args);
+            RouletteGame.main(args);
 
         }catch(InterruptedException ex) {
             System.err.println("Process Interrupted. Exiting...");
