@@ -22,12 +22,10 @@ public class RouletteStart {
         try {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Welcome to Java Roulette by Johnny Console!");
-            TimeUnit.SECONDS.sleep(2);
 
             System.out.print("How many players will be playing the game? (enter 0 to exit): ");
             players = scanner.nextInt();
             scanner.nextLine();
-            TimeUnit.SECONDS.sleep(2);
 
             System.out.println("Thanks for that!");
             names = new String[players];
