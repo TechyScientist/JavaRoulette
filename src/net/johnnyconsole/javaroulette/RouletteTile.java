@@ -9,14 +9,14 @@ import javafx.scene.control.Button;
  * holds tile data
  * Created: 16 May 2019
  */
-public class RouletteTile extends Button {
+class RouletteTile extends Button {
     int n;
     boolean isMine;
 
     RouletteTile(int n, int rand) {
         super(n + "");
         this.setPrefHeight(100);
-        this.setPrefHeight(100);
+        this.setPrefWidth(100);
         this.n = n;
         isMine = rand > 75;
     }
