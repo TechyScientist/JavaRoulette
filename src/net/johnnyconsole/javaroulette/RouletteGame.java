@@ -1,8 +1,10 @@
 package net.johnnyconsole.javaroulette;
 
 import javafx.application.Application;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -42,10 +44,13 @@ public class RouletteGame extends Application {
             for (int i = 0; i < RouletteStart.size; i++) {
                 for (int j = 0; j < RouletteStart.size; j++) {
                     int r = (int) (Math.random() * 101);
-                    RouletteTile tile = new RouletteTile(n++, r);
+                    RouletteTile tile = new RouletteTile(n++, r,j,i);
                     mWriter.print(tile.n + " (" + r + ")  ");
                     board.add(tile, j, i);
+                    Label l;
                     tile.setOnAction(e -> {
+                        board.add(new Label(tile.rand + ""),tile.x,tile.y);
+                        GridPane.setHalignment(board.getChildren().get(board.getChildren().size() - 1), HPos.CENTER);
                         tile.setVisible(false);
                         if (tile.isMine) {
                             if (countAlive() -1> 0) {
@@ -55,7 +60,8 @@ public class RouletteGame extends Application {
                                 lastPlayer = player;
                                 player = next();
                             }
-                        } else {
+                        }
+                        else {
                             if(countTiles() == 0) {
                                 System.out.println("Ran out of Tiles, the game is a draw!\nGame Over@");
                                 history.println("Out of tiles");
