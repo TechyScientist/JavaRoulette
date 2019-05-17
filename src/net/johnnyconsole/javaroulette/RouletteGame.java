@@ -47,19 +47,12 @@ public class RouletteGame extends Application {
                     tile.setOnAction(e -> {
                         tile.setVisible(false);
                         if (tile.isMine) {
-                            if (countAlive() > 1) {
+                            if (countAlive() -1> 0) {
                                 System.out.println(RouletteStart.names[player] + " died!");
                                 history.println("Plsyer " + RouletteStart.names[player] + " clicked on tile #" + tile.n + " and died!");
                                 RouletteStart.alive[player] = false;
                                 lastPlayer = player;
                                 player = next();
-                            }
-                            else {
-                                System.out.println(RouletteStart.names[player] + " died!\nGame Over!");
-                                history.println("Plsyer " + RouletteStart.names[player] + " clicked on tile #" + tile.n + " and died!");
-                                System.out.println(RouletteStart.names[lastPlayer] + " Won the game!");
-                                history.println("Plsyer " + RouletteStart.names[lastPlayer] + " won the game!");
-                                endGame(history);
                             }
                         } else {
                             if(countTiles() == 0) {
@@ -121,8 +114,9 @@ public class RouletteGame extends Application {
     }
 
     private int next() {
+        player = (player == RouletteStart.players ? 0 : player + 1);
         int n = -1;
-        for (int i = player + 1; i < RouletteStart.players; i++) {
+        for (int i = player; i < RouletteStart.players; i++) {
             if(RouletteStart.alive[i]) {
                 n = i;
                 break;
@@ -130,7 +124,10 @@ public class RouletteGame extends Application {
         }
         if(n == -1) {
             for (int i = 0; i < player; i++) {
-                if (RouletteStart.alive[i]) n =i;
+                if (RouletteStart.alive[i]){
+                    n =i;
+                    break;
+                }
             }
         }
         return n;
