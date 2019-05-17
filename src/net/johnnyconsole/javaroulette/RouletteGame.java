@@ -17,6 +17,7 @@ import java.io.PrintWriter;
  * Purrpose: Draws game board,
  * handles game logic
  * Created: 16 May 2019
+ * Last modified: 17 May 2019
  */
 public class RouletteGame extends Application {
     private GridPane board;
