@@ -23,7 +23,7 @@ import java.io.PrintWriter;
  */
 public class RouletteGame extends Application {
     private GridPane board;
-    private int player = 0, lastPlayer;
+    private int player = 0;
     private File matrix = new File("matrix.txt");
     private File game = new File("game-history.txt");
 
@@ -47,7 +47,6 @@ public class RouletteGame extends Application {
                     RouletteTile tile = new RouletteTile(n++, r,j,i);
                     mWriter.print(tile.n + " (" + r + ")  ");
                     board.add(tile, j, i);
-                    Label l;
                     tile.setOnAction(e -> {
                         board.add(new Label(tile.rand + ""),tile.x,tile.y);
                         GridPane.setHalignment(board.getChildren().get(board.getChildren().size() - 1), HPos.CENTER);
@@ -58,7 +57,6 @@ public class RouletteGame extends Application {
                                     System.out.println(RouletteStart.names[player] + " died!");
                                     history.println("Plsyer " + RouletteStart.names[player] + " clicked on tile #" + tile.n + " and died!");
                                     RouletteStart.alive[player] = false;
-                                    lastPlayer = player;
                                     player = next();
                                 }
                             } else {
@@ -70,7 +68,6 @@ public class RouletteGame extends Application {
                                 if (countAlive() > 1) {
                                     System.out.println(RouletteStart.names[player] + " lives!");
                                     history.println("Plsyer " + RouletteStart.names[player] + " clicked on tile #" + tile.n + " and lives!");
-                                    lastPlayer = player;
                                     player = next();
                                 } else {
                                     System.out.println(RouletteStart.names[player] + " won the game!\nGame Over!");
