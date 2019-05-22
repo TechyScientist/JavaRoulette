@@ -19,7 +19,7 @@ import java.io.PrintWriter;
  * Purrpose: Draws game board,
  * handles game logic
  * Created: 16 May 2019
- * Last modified: 17 May 2019
+ * Last modified: 22 May 2019
  */
 public class RouletteGame extends Application {
     private GridPane board;
@@ -52,31 +52,47 @@ public class RouletteGame extends Application {
                         board.add(new Label(tile.rand + ""),tile.x,tile.y);
                         GridPane.setHalignment(board.getChildren().get(board.getChildren().size() - 1), HPos.CENTER);
                         tile.setVisible(false);
-                        if (tile.isMine) {
-                            if (countAlive() -1> 0) {
-                                System.out.println(RouletteStart.names[player] + " died!");
-                                history.println("Plsyer " + RouletteStart.names[player] + " clicked on tile #" + tile.n + " and died!");
-                                RouletteStart.alive[player] = false;
-                                lastPlayer = player;
-                                player = next();
+                        if(RouletteStart.players > 1) {
+                            if (tile.isMine) {
+                                if (countAlive() - 1 > 0) {
+                                    System.out.println(RouletteStart.names[player] + " died!");
+                                    history.println("Plsyer " + RouletteStart.names[player] + " clicked on tile #" + tile.n + " and died!");
+                                    RouletteStart.alive[player] = false;
+                                    lastPlayer = player;
+                                    player = next();
+                                }
+                            } else {
+                                if (countTiles() == 0) {
+                                    System.out.println("Ran out of Tiles, the game is a draw!\nGame Over!");
+                                    history.println("Out of tiles");
+                                    endGame(history);
+                                }
+                                if (countAlive() > 1) {
+                                    System.out.println(RouletteStart.names[player] + " lives!");
+                                    history.println("Plsyer " + RouletteStart.names[player] + " clicked on tile #" + tile.n + " and lives!");
+                                    lastPlayer = player;
+                                    player = next();
+                                } else {
+                                    System.out.println(RouletteStart.names[player] + " won the game!\nGame Over!");
+                                    history.println("Plsyer " + RouletteStart.names[player] + " clicked on tile #" + tile.n + " and won the game!");
+                                    endGame(history);
+                                }
                             }
                         }
                         else {
-                            if(countTiles() == 0) {
-                                System.out.println("Ran out of Tiles, the game is a draw!\nGame Over@");
-                                history.println("Out of tiles");
-                                endGame(history);
+                            if(tile.isMine && RouletteStart.lives != 0) {
+                                System.out.println(RouletteStart.names[0] + " lost a life1 You now have " + --RouletteStart.lives + " lives!");
                             }
-                            if(countAlive() > 1) {
-                                System.out.println(RouletteStart.names[player] + " lives!");
-                                history.println("Plsyer " + RouletteStart.names[player] + " clicked on tile #" + tile.n + " and lives!");
-                                lastPlayer = player;
-                                player = next();
+                            else if(tile.isMine) {
+                                System.out.println(RouletteStart.names[0] + " has died!\nGame Over!");
+                                endGame(null);
+                            }
+                            else if(countTiles() == 0) {
+                                System.out.println(RouletteStart.names[0] + " has won!\nGame Over!");
+                                endGame(null);
                             }
                             else {
-                                System.out.println(RouletteStart.names[player] + " won the game!\nGame Over!");
-                                history.println("Plsyer " + RouletteStart.names[player] + " clicked on tile #" + tile.n + " and won the game!");
-                                endGame(history);
+                                System.out.println(RouletteStart.names[0] + " lives!");
                             }
                         }
                     });
@@ -106,17 +122,24 @@ public class RouletteGame extends Application {
     private int countTiles() {
         int count = 0;
         for (int i = 0; i <  board. getChildren().size(); i++) {
-            if(board.getChildren().get(i).isVisible()) count++;
+            if(board.getChildren().get(i) instanceof RouletteTile
+                && board.getChildren().get(i).isVisible())
+                count++;
         }
         return count;
     }
 
     private void endGame(PrintWriter writer) {
-        writer.print("Game Over!");
-        writer.close();
+        if(writer != null) {
+            writer.print("Game Over!");
+            writer.close();
+        }
         System.out.println("Game created by Johnny Console");
         System.out.println("The game matrix can be found at " + matrix.getAbsolutePath());
-        System.out.println("The game summary can be found at " + game.getAbsolutePath());
+
+        if(writer != null) {
+            System.out.println("The game summary can be found at " + game.getAbsolutePath());
+        }
         System.exit(0);
     }
 
