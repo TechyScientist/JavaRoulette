@@ -10,14 +10,17 @@ import javafx.scene.control.Button;
  * Created: 16 May 2019
  */
 class RouletteTile extends Button {
-    int n;
+    int n,x,y, rand;
     boolean isMine;
 
-    RouletteTile(int n, int rand) {
+    RouletteTile(int n, int rand, int x, int y) {
         super(n + "");
         this.setPrefHeight(100);
         this.setPrefWidth(100);
         this.n = n;
+        this.rand = rand;
+        this.x = x;
+        this.y = y;
         isMine = rand > 75;
     }
 

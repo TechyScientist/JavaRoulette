@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
  * Purrpose: Main entry point,
  * handles collecting game data
  * Created: 16 May 2019
+ * Last Modified: 22 May 2019
  */
 public class RouletteStart {
     private static final int ERROR = 1;
@@ -17,6 +18,7 @@ public class RouletteStart {
     static int players, size;
     static String[] names;
     static boolean[] alive;
+    static int lives;
 
     public static void main(String[] args) {
         try {
@@ -26,6 +28,10 @@ public class RouletteStart {
             System.out.print("How many players will be playing the game? (enter 0 to exit): ");
             players = scanner.nextInt();
             scanner.nextLine();
+            if(players <= 0) {
+                System.out.println("Exit Signal Received. Terminating");
+                System.exit(0);
+            }
 
             System.out.println("Thanks for that!");
             names = new String[players];
@@ -36,7 +42,10 @@ public class RouletteStart {
                 names[i] = scanner.nextLine();
                 alive[i] = true;
             }
-
+            if(players == 1) {
+                System.out.print("How many lives? ");
+                lives = scanner.nextInt();
+            }
             System.out.print("Thanks! Finally, select your board size: ");
             size = scanner.nextInt();
             scanner.close();
